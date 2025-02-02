@@ -6,7 +6,7 @@ const taskScema = new mongoose.Schema({
         type: String,
         required: [true, 'Task is Required']
     },
-    Description: {
+    description: {
         type: String,
         required: false
     },
@@ -28,3 +28,5 @@ const taskScema = new mongoose.Schema({
         default: Date.now,
     }
 })
+
+module.exports = mongoose.model('Task', taskScema);
