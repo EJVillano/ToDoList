@@ -35,5 +35,21 @@ module.exports.createTask = (req, res) =>{
 };
 
 module.exports.getTask = (req, res) =>{
+ return Task.find({})
+ .then(task =>{
+    if(task.length > 0){
+        return res.status(200).send({ task })
+    }
+    else{
+        return res.status(200).send({ "message" : "no tasks available" })
+    }
+ })
+ .catch(err => {
+    console.error("Error searching for task :", err )
+    return res.status(500).send({error: 'Error finding product.'})
+ })
+}
 
+module.exports.updateTask = (req, res) =>{
+    
 }
