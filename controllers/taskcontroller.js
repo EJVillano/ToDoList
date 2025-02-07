@@ -51,5 +51,40 @@ module.exports.getTask = (req, res) =>{
 }
 
 module.exports.updateTask = (req, res) =>{
-    
+
+    const taskId = req.params.taskId;
+    console.log(taskId)
+
+    let updatedtask =  {
+        task : req.body.task,
+        description : req.body.description,
+        dueDate : req.body.dueDate,
+        status: req.body.status
+    }
+
+    console.log("Received taskId:", taskId);
+    console.log("Request body:", req.body);
+
+    if(req.body.status === "Done"){
+        updatedtask.completedAt = Date.now()
+    }
+
+
+    return Task.findByIdAndUpdate(taskId, updatedtask)
+    .then(updatedtask =>{
+        if(!updatedtask){
+            console.log(taskId)
+            return res.status(404).send({error:`${taskId} Task not found`})
+        }
+
+        return res.status(200).send({
+			message: 'Task updated successfully',
+			updatedtask: updatedtask
+		})
+    }).catch(err=>{
+
+		console.error("Error in updating a product: ", err)
+		return res.status(500).send({error: 'Error in updating a product.'})
+
+	});
 }

@@ -10,5 +10,8 @@ router.post("/createTask", taskController.createTask)
 
 router.get("/", taskController.getTask )
 
+router.patch("/:taskId/update", taskController.updateTask )
+
+
 // [Export Route System]
 module.exports = router;

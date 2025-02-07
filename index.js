@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cors =require("cors");
 
 // [Routes]
-const taskRoutes = require("./routes/task.js")
+const taskRoutes = require("./Routes/task.js")
 
 // [Enviroment Setup]
 const port = 4000;
@@ -27,6 +27,7 @@ db.once("open",()=>console.log("Now connected to MongoDB Atlas!"));
 
 //[Backend Routes]
 app.use('/tasks', taskRoutes);
+
 //[Server Gateway Response]
 if(require.main === module){
 
