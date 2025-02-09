@@ -88,3 +88,23 @@ module.exports.updateTask = (req, res) =>{
 
 	});
 }
+
+module.exports.deleteTask = (req, res) =>{
+    const taskId = req.params.taskId;
+
+    return Task.findByIdAndDelete(taskId)
+    .then(deletedTask=>{
+        if (!deletedTask){
+            return res.status(404).send({error:'Task not found'})
+        }
+        return res.status(200).send({
+			message: 'Task deleteted successfully',
+			deletedTask: deletedTask
+		})
+    }).catch(err=>{
+
+		console.error("Error in updating a product: ", err)
+		return res.status(500).send({error: 'Error in updating a product.'})
+
+	});
+}
