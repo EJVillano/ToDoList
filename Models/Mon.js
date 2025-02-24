@@ -4,6 +4,10 @@ const monScema = new mongoose.Schema({
     monDex:{
         type: Number,
     },
+    picture:{
+        type: Buffer,
+        default: require('../taskmons/000.jpeg')
+    },
     name: {
         type: String,
         required: true 
@@ -27,6 +31,7 @@ const monScema = new mongoose.Schema({
         ref: 'User',
         default: null
     }
+    
     
     
 })
