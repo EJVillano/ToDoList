@@ -24,12 +24,22 @@ const userScema = new mongoose.Schema({
     },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
+        ref: 'Task',
+        default: null
     }],
     mons: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Mon'
-    }]
+    }],
+    isFirstimer: {
+        type: Boolean,
+        default : true
+
+    },
+    password: {
+        type: String,
+        required: [true, 'Password is Required']
+    }
     
 })
 
