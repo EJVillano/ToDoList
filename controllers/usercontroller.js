@@ -1,4 +1,8 @@
+const bcrypt = require("bcrypt")
+
 const User = require("../Models/User");
+
+const auth = require("../auth.js")
 
 module.exports.registerUser = (req, res) =>{
     let rb = req.body
@@ -28,11 +32,11 @@ module.exports.registerUser = (req, res) =>{
                     email : rb.email,
                     birthdate : rb.birthdate,
                     username : rb.username,
-                    password : rb.password
+                    password : bcrypt.hashSync(rb.password, 10)
                 })
                 return newUser.save()
                 .then((savedUser) =>{
-                    message: "Registered Successfully" 
+                    return res.status(200).send({message: "Registered Successfully" })
                  })
                  .catch(err => {
                     console.error("Error in saving: ", err)
@@ -44,3 +48,31 @@ module.exports.registerUser = (req, res) =>{
     }  
 
 }
+
+module.exports.loginUser = (req, res) =>{
+    
+    if(req.body.email.includes("@")){
+
+        return User.findOne({username : req.body.username})
+        .then(result=>{
+            if(result == null){
+                return res.status(404).send({message : "Username not found"});
+            }else{
+
+                const isPasswordCorrect = bcrypt.compareSync(req.body.password, result.password);
+                if(isPasswordCorrect){
+                    return res.status(200).send({access: auth.createAccessToken(result)})
+                }else{
+                    return res.status(401).send({message : "Email and password do not match"}
+                        );
+                }
+            }
+        }).catch(err => {
+            console.error("Error in finding user:", err); // Log the error
+            return res.status(500).json({ message: "Error in finding user" });
+        });
+
+    }else{
+        return res.status(400).send({message : "Invalid email"})
+    }
+};
