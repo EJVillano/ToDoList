@@ -10,5 +10,6 @@ router.post("/register", userController.registerUser)
 
 router.post("/login", userController.loginUser)
 
+router.get("/:userId", userController.getUser)
 // [Export Route System]
 module.exports = router;

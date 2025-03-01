@@ -50,8 +50,6 @@ module.exports.registerUser = (req, res) =>{
 }
 
 module.exports.loginUser = (req, res) =>{
-    
-    if(req.body.email.includes("@")){
 
         return User.findOne({username : req.body.username})
         .then(result=>{
@@ -72,7 +70,22 @@ module.exports.loginUser = (req, res) =>{
             return res.status(500).json({ message: "Error in finding user" });
         });
 
-    }else{
-        return res.status(400).send({message : "Invalid email"})
-    }
+    
 };
+
+module.exports.getUser =(req, res) =>{
+    const userId = req.params.userId;
+
+    return User.findById(userId)
+        .then(result=>{
+            if(result == null){
+                return res.status(404).send({message : "User does not Exist"});
+            }else{
+                return res.status(200).send({result})
+                
+            }
+        }).catch(err => {
+            console.error("Error in finding user:", err); // Log the error
+            return res.status(500).json({ message: "Error in finding user" });
+        });
+} 
