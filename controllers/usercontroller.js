@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt")
 
 const User = require("../Models/User");
 
-const auth = require("../auth.js")
+const auth = require("../auth.js");
+const { error } = require("console");
 
 module.exports.registerUser = (req, res) =>{
     let rb = req.body
@@ -54,14 +55,14 @@ module.exports.loginUser = (req, res) =>{
         return User.findOne({username : req.body.username})
         .then(result=>{
             if(result == null){
-                return res.status(404).send({message : "Username not found"});
+                return res.status(404).send({message : "User not found"});
             }else{
 
                 const isPasswordCorrect = bcrypt.compareSync(req.body.password, result.password);
                 if(isPasswordCorrect){
                     return res.status(200).send({access: auth.createAccessToken(result)})
                 }else{
-                    return res.status(401).send({message : "Email and password do not match"}
+                    return res.status(401).send({message : "Username and password do not match"}
                         );
                 }
             }
