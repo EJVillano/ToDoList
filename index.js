@@ -28,7 +28,7 @@ db.once("open",()=>console.log("Now connected to MongoDB Atlas!"));
 
 //[Backend Routes]
 app.use('/tasks', taskRoutes);
-app.use('/user',userRoutes);
+app.use('/users',userRoutes);
 
 
 //[Server Gateway Response]
